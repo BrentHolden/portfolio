@@ -230,7 +230,7 @@ function changeToPortfolioCode(){
     let portfolioCodeFrame = document.createElement('pre');
 
     // fetch('https://api.github.com/gists/feab9b115f2f4fe8442d401af9570da7')
-    fetch('https://api.github.com/repos/BrentHolden/03-Challenges/contents/challenge2.js')
+    fetch('https://api.github.com/repos/BrentHolden/portfolio/contents/index.html')
         .then(response => response.json())
         .then(data => {
             portfolioCodeFrame.textContent = atob(data.content);
