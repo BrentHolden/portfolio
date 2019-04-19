@@ -51,6 +51,11 @@ const buttons = [
         title: "LinkedIn ",
         source: "https://www.linkedin.com/in/brent-holden-267a1646/"
     }
+    // {
+    //     id: "testButton",
+    //     title: "Test ",
+    //     click: projectFromGithub
+    // }
 ]
 
 function changeToHome(e) {
@@ -211,7 +216,7 @@ function buildFoot(){
     }
 
     let portfolioCodeButton = document.createElement('a');
-    portfolioCodeButton.textContent = 'View Code';
+    portfolioCodeButton.textContent = 'View Source Code';
     portfolioCodeButton.addEventListener('click', changeToPortfolioCode);
 
     mainFoot.appendChild(portfolioCodeButton);
@@ -221,26 +226,56 @@ buildFoot();
 
 function changeToPortfolioCode(){
 
-    let fromGithub
-
     while (mainBody.firstChild) {
         mainBody.removeChild(mainBody.firstChild);
     }
 
-    let portfolioCodeFrame = document.createElement('pre');
+    let portfolioCodeButtons = document.createElement('div');
+    portfolioCodeButtons.setAttribute('id', 'portfolioCodeButtons');
+    mainBody.appendChild(portfolioCodeButtons);
 
-    // fetch('https://api.github.com/gists/feab9b115f2f4fe8442d401af9570da7')
+    let portfolioHTMLButton = document.createElement('a');
+    portfolioHTMLButton.textContent = "HTML ";
+    portfolioCodeButtons.appendChild(portfolioHTMLButton);
+
+    let portfolioJSButton = document.createElement('a');
+    portfolioJSButton.textContent = "JS ";
+    portfolioCodeButtons.appendChild(portfolioJSButton);
+
+    let portfolioCSSButton = document.createElement('a');
+    portfolioCSSButton.textContent = "CSS ";
+    portfolioCodeButtons.appendChild(portfolioCSSButton);
+
+    let portfolioCodePre = document.createElement('pre');
+    mainBody.appendChild(portfolioCodePre);
+
+    let portfolioCodeCode = document.createElement('code');
+    portfolioCodePre.appendChild(portfolioCodeCode);
+
     fetch('https://api.github.com/repos/BrentHolden/portfolio/contents/index.html')
         .then(response => response.json())
         .then(data => {
-            portfolioCodeFrame.textContent = atob(data.content);
-            // console.log(atob(data.content))
+            portfolioCodeCode.textContent = atob(data.content);
         })
         .catch(error => console.error(error))
-
-        
-        
-    
-        mainBody.appendChild(portfolioCodeFrame);
 }
 
+function projectFromGithub(){
+
+    fetch('https://api.github.com/repos/huelsmanhd/board-meeting-client/contents/')
+    .then(response => response.json())
+    .then(data => {
+        // console.log(atob(data.content));
+        // console.log(data);
+        for (i of data) {
+            fetch(`https://api.github.com/repos/huelsmanhd/board-meeting-client/contents/${i.path}`)
+            .then(response => response.json())
+            .then(data => {
+                console.log(data)
+            })
+            .catch(error => console.error(error))
+        }
+    })
+    .catch(error => console.error(error))
+
+}
